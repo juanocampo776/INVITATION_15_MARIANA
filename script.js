@@ -1,3 +1,95 @@
+// Book Cover Interaction
+document.addEventListener('DOMContentLoaded', () => {
+    const openBtn = document.getElementById('open-book-btn');
+    const bookInterface = document.getElementById('book-interface');
+    
+    if (openBtn && bookInterface) {
+        openBtn.addEventListener('click', () => {
+            bookInterface.classList.add('is-open');
+            
+            // Desata las mariposas después de un ligero delay
+            setTimeout(() => {
+                createButterflySwirl();
+            }, 500); 
+            
+            // Haz el destello justo cuando las mariposas van saliendo 
+            setTimeout(() => {
+                triggerFlash();
+            }, 1400);
+            
+            // Allow scrolling after animation finishes
+            setTimeout(() => {
+                document.body.classList.add('book-opened');
+                bookInterface.classList.add('is-closed-completely'); // Hides the element so it doesn't block clicks
+            }, 1800);
+        });
+    }
+});
+
+function createButterflySwirl() {
+    const burstContainer = document.createElement('div');
+    burstContainer.className = 'butterfly-burst';
+    document.body.appendChild(burstContainer);
+    
+    for (let i = 0; i < 40; i++) {
+        const bContainer = document.createElement('div');
+        bContainer.className = 'burst-butterfly-container';
+        
+        const b = document.createElement('div');
+        b.className = 'burst-butterfly';
+        
+        // Randomize the spiral
+        const angle = Math.random() * 360;
+        const distance = 200 + Math.random() * 800; // further out
+        const delay = Math.random() * 0.3; 
+        const scaleEnd = 3 + Math.random() * 8; 
+
+        bContainer.style.setProperty('--start-angle', `${angle}deg`);
+        bContainer.style.setProperty('--end-angle', `${angle + (360 * (1 + Math.random() * 1.5))}deg`); 
+        bContainer.style.setProperty('--dist', `${distance}px`);
+        bContainer.style.setProperty('--scale-end', scaleEnd);
+        bContainer.style.animationDelay = `${delay}s`;
+        
+        bContainer.appendChild(b);
+        burstContainer.appendChild(bContainer);
+    }
+    
+    setTimeout(() => {
+        burstContainer.remove();
+    }, 4000);
+}
+
+function triggerFlash() {
+    const flash = document.createElement('div');
+    flash.style.position = 'fixed';
+    flash.style.top = '0';
+    flash.style.left = '0';
+    flash.style.width = '100vw';
+    flash.style.height = '100vh';
+    flash.style.backgroundColor = 'white';
+    flash.style.zIndex = '10001';
+    flash.style.pointerEvents = 'none';
+    flash.style.opacity = '0';
+    flash.style.transition = 'opacity 0.2s ease-out';
+    document.body.appendChild(flash);
+    
+    setTimeout(() => {
+        flash.style.opacity = '1';
+        // Remove book-beam visually to clean up the flash transition
+        const beam = document.querySelector('.book-beam');
+        if (beam) beam.style.opacity = '0';
+    }, 10);
+    
+    setTimeout(() => {
+        flash.style.transition = 'opacity 1.5s ease-in';
+        flash.style.opacity = '0';
+    }, 300);
+    
+    setTimeout(() => {
+        flash.remove();
+    }, 2000);
+}
+
 // Countdown Timer
 const targetDate = new Date("October 17, 2026 17:30:00").getTime();
 
@@ -24,29 +116,52 @@ function updateCountdown() {
 setInterval(updateCountdown, 1000);
 updateCountdown();
 
-// RSVP Form Submission to WhatsApp
+// RSVP Form Logic
 const rsvpForm = document.getElementById('rsvp-form');
-rsvpForm.addEventListener('submit', function(e) {
-    e.preventDefault();
-    
-    const name = document.getElementById('name').value;
-    const phone = document.getElementById('phone').value;
-    const guests = document.getElementById('guests').value;
-    
-    // WhatsApp contact number (Mariana's RSVP)
-    const whatsappNumber = "15618914552";
-    
-    const message = `¡Hola! Confirmo mi asistencia a los 15 años de Mariana.\n\n` +
-                    `*Nombre:* ${name}\n` +
-                    `*Teléfono:* ${phone}\n` +
-                    `*Acompañantes:* ${guests}\n\n` +
-                    `¡Nos vemos pronto!`;
-    
-    const encodedMessage = encodeURIComponent(message);
-    const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodedMessage}`;
-    
-    window.open(whatsappUrl, '_blank');
-});
+const attendanceSelect = document.getElementById('attendance');
+const guestsContainer = document.getElementById('guests-container');
+
+if (attendanceSelect) {
+    attendanceSelect.addEventListener('change', function() {
+        if (this.value === 'si') {
+            guestsContainer.style.display = 'block';
+        } else {
+            guestsContainer.style.display = 'none';
+        }
+    });
+}
+
+if (rsvpForm) {
+    rsvpForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        const name = document.getElementById('name').value;
+        const phone = document.getElementById('phone').value;
+        const attendance = document.getElementById('attendance').value;
+        const guests = document.getElementById('guests').value;
+        
+        // WhatsApp contact number (Mariana's RSVP)
+        const whatsappNumber = "15618914552";
+        
+        let attendanceText = attendance === 'si' ? '✅ ¡Sí, allí estaré!' : '❌ Lo siento, no puedo asistir';
+        let message = `¡Hola! Envío mi respuesta para los 15 años de Mariana.\n\n` +
+                        `*Nombre:* ${name}\n` +
+                        `*Teléfono:* ${phone}\n` +
+                        `*Asistencia:* ${attendanceText}\n`;
+
+        if (attendance === 'si') {
+            const guestCount = guests === "0" ? "Solo yo" : `${guests} acompañante(s)`;
+            message += `*Acompañantes:* ${guestCount}\n`;
+        }
+                        
+        message += `\n¡Gracias por la invitación!`;
+        
+        const encodedMessage = encodeURIComponent(message);
+        const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodedMessage}`;
+        
+        window.open(whatsappUrl, '_blank');
+    });
+}
 
 // Scroll Reveal Animation (Simple implementation)
 const observerOptions = {

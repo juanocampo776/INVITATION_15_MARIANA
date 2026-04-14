@@ -13,6 +13,20 @@
 </head>
 <body>
 
+    <!-- Magic Book Cover Overlay -->
+    <div id="book-interface">
+        <div class="book-door left-door"></div>
+        <div class="book-door right-door"></div>
+        <div class="book-beam"></div>
+        <div class="book-seal-container" id="open-book-btn">
+            <div class="book-seal">
+                <span class="seal-text-top">Mariana</span>
+                <span class="seal-text-bottom">Mis 15 Años</span>
+            </div>
+            <div class="click-indicator">Toca para abrir</div>
+        </div>
+    </div>
+
     <!-- Hero Section -->
     <header class="hero">
         <video autoplay muted loop playsinline class="hero-video" poster="hero.png">
@@ -23,6 +37,11 @@
             <p>Estás cordialmente invitado a</p>
             <h1>Mariana</h1>
             <p>Mis 15 Años</p>
+        </div>
+        <!-- Scroll Indicator -->
+        <div class="scroll-indicator" id="hero-scroll">
+            <span>Desliza para descubrir</span>
+            <div class="arrow-down"></div>
         </div>
     </header>
 
@@ -124,36 +143,12 @@
             </div>
             
             <div class="gallery-grid">
-                <div class="gallery-item-magic">
-                    <img src="historia_1.jpg" alt="Mariana Historia 1">
-                </div>
-                <div class="gallery-item-magic">
-                    <img src="historia_2.jpg" alt="Mariana Historia 2">
-                </div>
-                <div class="gallery-item-magic">
-                    <img src="historia_3.jpg" alt="Mariana Historia 3">
-                </div>
-                <div class="gallery-item-magic">
-                    <img src="historia_4.jpg" alt="Mariana Historia 4">
-                </div>
-                <div class="gallery-item-magic">
-                    <img src="historia_5.jpg" alt="Mariana Historia 5">
-                </div>
-                <div class="gallery-item-magic">
-                    <img src="historia_6.jpg" alt="Mariana Historia 6">
-                </div>
-                <div class="gallery-item-magic">
-                    <img src="historia_7.jpg" alt="Mariana Historia 7">
-                </div>
-                <div class="gallery-item-magic">
-                    <img src="historia_8.jpg" alt="Mariana Historia 8">
-                </div>
-                <div class="gallery-item-magic">
-                    <img src="historia_9.jpg" alt="Mariana Historia 9">
-                </div>
-                <div class="gallery-item-magic">
-                    <img src="historia_10.jpg" alt="Mariana Historia 10">
-                </div>
+                <div class="gallery-item-magic"><img src="historia_1.jpg" alt="1"></div>
+                <div class="gallery-item-magic"><img src="historia_2.jpg" alt="2"></div>
+                <div class="gallery-item-magic"><img src="historia_3.jpg" alt="3"></div>
+                <div class="gallery-item-magic"><img src="historia_4.jpg" alt="4"></div>
+                <div class="gallery-item-magic"><img src="historia_5.jpg" alt="5"></div>
+                <div class="gallery-item-magic"><img src="historia_6.jpg" alt="6"></div>
             </div>
         </div>
 
@@ -169,12 +164,12 @@
             </div>
             
             <div class="gallery-grid">
-                <div class="gallery-item-magic">
-                    <img src="historia_11.jpg" alt="Mariana Historia 11">
-                </div>
-                <div class="gallery-item-magic">
-                    <img src="historia_12.jpg" alt="Mariana Historia 12">
-                </div>
+                <div class="gallery-item-magic"><img src="historia_7.jpg" alt="7"></div>
+                <div class="gallery-item-magic"><img src="historia_8.jpg" alt="8"></div>
+                <div class="gallery-item-magic"><img src="historia_9.jpg" alt="9"></div>
+                <div class="gallery-item-magic"><img src="historia_10.jpg" alt="10"></div>
+                <div class="gallery-item-magic"><img src="historia_11.jpg" alt="11"></div>
+                <div class="gallery-item-magic"><img src="historia_12.jpg" alt="12"></div>
             </div>
         </div>
 
@@ -191,21 +186,11 @@
             </div>
             
             <div class="gallery-grid">
-                <div class="gallery-item-magic">
-                    <img src="historia_13.jpg" alt="Mariana Historia 13">
-                </div>
-                <div class="gallery-item-magic">
-                    <img src="historia_14.jpg" alt="Mariana Historia 14">
-                </div>
-                <div class="gallery-item-magic">
-                    <img src="historia_15.jpg" alt="Mariana Historia 15">
-                </div>
-                <div class="gallery-item-magic">
-                    <img src="historia_17.jpg" alt="Mariana Historia 17">
-                </div>
-                <div class="gallery-item-magic">
-                    <img src="historia_18.jpg" alt="Mariana Historia 18">
-                </div>
+                <div class="gallery-item-magic"><img src="historia_13.jpg" alt="13"></div>
+                <div class="gallery-item-magic"><img src="historia_14.jpg" alt="14"></div>
+                <div class="gallery-item-magic"><img src="historia_15.jpg" alt="15"></div>
+                <div class="gallery-item-magic"><img src="historia_17.jpg" alt="17"></div>
+                <div class="gallery-item-magic"><img src="historia_18.jpg" alt="18"></div>
             </div>
         </div>
 
@@ -272,11 +257,24 @@
                 <input type="tel" id="phone" name="phone" required placeholder="Número de celular">
             </div>
             <div class="form-group">
+                <label for="attendance">¿Asistirás?</label>
+                <select id="attendance" name="attendance" required>
+                    <option value="" disabled selected>Selecciona una opción</option>
+                    <option value="si">¡Sí, allí estaré!</option>
+                    <option value="no">Lo siento, no puedo asistir</option>
+                </select>
+            </div>
+            <div class="form-group" id="guests-container" style="display: none;">
                 <label for="guests">Número de acompañantes</label>
                 <select id="guests" name="guests">
                     <option value="0">Solo yo</option>
                     <option value="1">1 Acompañante</option>
                     <option value="2">2 Acompañantes</option>
+                    <option value="3">3 Acompañantes</option>
+                    <option value="4">4 Acompañantes</option>
+                    <option value="5">5 Acompañantes</option>
+                    <option value="6">6 Acompañantes</option>
+                    <option value="7">7 Acompañantes</option>
                 </select>
             </div>
             <button type="submit" class="btn-submit">Confirmar vía WhatsApp</button>
